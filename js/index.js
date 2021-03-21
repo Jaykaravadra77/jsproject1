@@ -1,7 +1,6 @@
 // console.log("Your Project 2");
 reloadshow();
 function reloadshow() {
-   let tbody = document.getElementById('tbody');
    let lstorage = localStorage.getItem('objs');
    if (lstorage == null) {
       var objarr = [];
@@ -9,16 +8,31 @@ function reloadshow() {
    else {
       objarr = JSON.parse(lstorage);
    }
+   let html="";
    Array.from(objarr).forEach(function (element) {
-      tbody.innerHTML += `<tr>
+
+     html+= `<tr>
                <td>${element.aname}</td>
                <td>${element.bname}</td>
                <td>${element.type}</td>
+              <td><button id="${element.aname}"onclick="de(this.id)" class="btn btn-danger">Delete Note</button></td>
                </tr>`;
+              
 
-   })
+               
+   } );
 
+   let tbody=document.getElementById('tbody');
+   tbody.innerHTML=html;
 
+}
+function de(id) {
+   let objarr = localStorage.getItem('objs');
+   objarr = JSON.parse(objarr);
+   let ele=objarr.indexOf(id);
+   objarr.splice(ele, 1);
+   localStorage.setItem('objs', JSON.stringify(objarr));
+   reloadshow();
 
 }
 
@@ -43,15 +57,18 @@ function display(book) {
 
    if (validate(book)) {
       objarr.push(book);
-      localStorage.setItem('objs', JSON.stringify(objarr));
-
-
       let tbody = document.getElementById('tbody');
+      localStorage.setItem('objs', JSON.stringify(objarr));
       tbody.innerHTML += `<tr>
-               <td>${book.aname}</td>
-               <td>${book.bname}</td>
-               <td>${book.type}</td>
-               </tr>`;
+                  <td>${book.aname}</td>
+                  <td>${book.bname}</td>
+                  <td>${book.type}</td>
+                   <td><button id="${book.aname}"onclick="de(this.id)" class="btn btn-danger">Delete Note</button></td>
+                  </tr>`;
+
+
+
+
 
    }
 
@@ -66,13 +83,13 @@ function display(book) {
       myFunction();
       function myFunction() {
          myVar = setTimeout(alertFunc, 5000);
-       }
-       
-       function alertFunc() {
+      }
+
+      function alertFunc() {
          let ediv = document.getElementById('errordv');
-         ediv.innerHTML="";
-      
-       }
+         ediv.innerHTML = "";
+
+      }
    }
 
 
